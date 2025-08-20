@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>香薰美容课程教案</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f6f2;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            font-size: 16px;
+            padding-bottom: 60px; /* 预留底部空间 */
+        }
+        
+        .container {
+            width: 100%;
+            background: white;
+            padding: 20px 15px;
+            position: relative;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8d4c1;
+        }
+        
+        h1 {
+            color: #7a5d48;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        
+        .description {
+            color: #9e8776;
+            font-size: 1em;
+            width: 100%;
+            line-height: 1.5;
+        }
+        
+        .lessons-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .lesson-card {
+            background: linear-gradient(to bottom, #f8f3ed, #f1e8de);
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            border: 1px solid #e8d4c1;
+            position: relative;
+            overflow: hidden;
+            scroll-margin-top: 80px; /* 滚动定位偏移量 */
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .lesson-number {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #7a5d48;
+            color: white;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom-left-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .lesson-title {
+            color: #7a5d48;
+            margin-bottom: 12px;
+            padding-right: 40px;
+            font-size: 1.2em;
+            min-height: auto;
+            line-height: 1.4;
+        }
+        
+        .lesson-content {
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .lesson-details {
+            background-color: rgba(122, 93, 72, 0.08);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        
+        .detail-item {
+            margin-bottom: 8px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            min-width: 70px;
+            color: #7a5d48;
+            margin-right: 5px;
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #9e8776;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        
+        .download-btn:hover, .download-btn:active {
+            background-color: #7a5d48;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px solid #e8d4c1;
+            color: #9e8776;
+            font-size: 0.9em;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            background-color: #7a5d48;
+            color: white;
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #7a5d48;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 99;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+        }
+        
+        /* 电梯导航样式 */
+        .elevator-nav {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .elevator-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #7a5d48;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+        
+        .elevator-menu {
+            display: none;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 10px 0;
+            max-height: 70vh;
+            overflow-y: auto;
+            width: 80px;
+        }
+        
+        .elevator-menu.show {
+            display: block;
+        }
+        
+        .elevator-item {
+            padding: 8px 0;
+            text-align: center;
+            color: #7a5d48;
+            font-size: 0.9em;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .elevator-item:hover {
+            background-color: #f1e8de;
+        }
+        
+        .elevator-item.active {
+            background-color: #f1e8de;
+            border-left-color: #7a5d48;
+            font-weight: bold;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .lessons-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+            }
+            
+            .elevator-menu {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">香薰美容课程教案</div>
+    
+    <div class="container">
+        <header>
+            <p class="description">本课程共18节课，涵盖香薰美容的基础理论、精油知识、按摩技巧和实际应用等内容，帮助学生全面掌握香薰美容的专业技能。</p>
+        </header>
+        
+        <div class="lessons-container" id="lessonsContainer">
+            <!-- 教案卡片将通过JavaScript动态生成 -->
+        </div>
+        
+        <div class="footer">
+            <p>人物形象设计专业 &copy; 2023 香薰美容课程</p>
+        </div>
+    </div>
+    
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop">↑</div>
+    
+    <!-- 电梯导航 -->
+    <div class="elevator-nav">
+        <div class="elevator-toggle" id="elevatorToggle">
+            <i class="fas fa-list"></i>
+        </div>
+        <div class="elevator-menu" id="elevatorMenu">
+            <!-- 导航项将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <script>
+        // 课程数据
+        const lessons = [
+            {
+                title: "香薰美容概述与历史发展",
+                objectives: "了解香薰美容的定义、历史和发展现状",
+                content: "介绍香薰美容的基本概念、起源、发展历程以及在现代美容行业的应用。",
+                focus: "香薰美容的定义和历史发展脉络",
+                difficulty: "理解香薰美容在不同文化背景下的演变",
+                tools: "投影仪、精油样品、教学PPT"
+            },
+            {
+                title: "精油基础知识与提取方法",
+                objectives: "掌握精油的分类、特性和提取工艺",
+                content: "讲解精油的化学组成、分类方法、提取方式（蒸馏法、冷压法等）以及品质鉴别。",
+                focus: "精油的分类和提取方法",
+                difficulty: "理解不同提取方法对精油品质的影响",
+                tools: "各种精油样品、提取设备图示、蒸馏装置模型"
+            },
+            {
+                title: "常见精油功效与特性（一）",
+                objectives: "学习10种常见精油的特性与功效",
+                content: "详细介绍薰衣草、茶树、薄荷、柠檬、橙花等精油的特性、功效及使用注意事项。",
+                focus: "5种精油的特性与功效",
+                difficulty: "记忆不同精油的特定功效和使用禁忌",
+                tools: "精油样品、闻香纸、功效图表"
+            },
+            {
+                title: "常见精油功效与特性（二）",
+                objectives: "学习另外10种常见精油的特性与功效",
+                content: "详细介绍玫瑰、檀香、乳香、依兰、茉莉等精油的特性、功效及使用注意事项。",
+                focus: "5种精油的特性与功效",
+                difficulty: "区分相似功效精油的细微差别",
+                tools: "精油样品、闻香纸、功效对比表"
+            },
+            {
+                title: "精油安全与使用禁忌",
+                objectives: "掌握精油使用的安全规范和禁忌症",
+                content: "学习精油的稀释比例、使用禁忌、敏感测试方法以及特殊人群（孕妇、儿童等）使用注意事项。",
+                focus: "精油的安全使用规范和禁忌",
+                difficulty: "掌握不同人群的精油使用禁忌",
+                tools: "稀释比例表、案例视频、安全手册"
+            },
+            {
+                title: "基础按摩手法与技巧",
+                objectives: "掌握香薰按摩的基本手法和操作要领",
+                content: "学习 Swedish 按摩的基本手法：轻抚法、揉捏法、摩擦法、叩击法和振动法。",
+                focus: "五种基本按摩手法的正确操作",
+                difficulty: "手法力度的控制和节奏的掌握",
+                tools: "按摩床、按摩油、示范视频"
+            },
+            {
+                title: "面部香薰按摩疗法",
+                objectives: "掌握面部香薰按摩的流程和手法",
+                content: "学习针对不同肤质的面部按摩手法，包括穴位按压、淋巴引流等技术。",
+                focus: "面部按摩手法和穴位定位",
+                difficulty: "手法轻柔度的控制和穴位准确性",
+                tools: "面部按摩模型、精油、按摩床"
+            },
+            {
+                title: "头部与肩颈香薰疗法",
+                objectives: "掌握头肩部香薰按摩的流程和手法",
+                content: "学习针对缓解压力、头痛和肩颈紧张的香薰按摩技术。",
+                focus: "头肩部按摩手法和压力点控制",
+                difficulty: "针对不同紧张程度的力度调整",
+                tools: "按摩床、精油、示范视频"
+            },
+            {
+                title: "背部香薰按摩疗法",
+                objectives: "掌握背部香薰按摩的流程和手法",
+                content: "学习背部按摩的完整流程，包括脊柱两侧肌肉的放松技术和穴位刺激。",
+                focus: "背部按摩的完整流程和手法",
+                difficulty: "针对不同体型客户的手法调整",
+                tools: "按摩床、精油、毛巾"
+            },
+            {
+                title: "足部反射疗法与香薰应用",
+                objectives: "掌握足部反射区知识和香薰应用技术",
+                content: "学习足部反射区的基本知识，结合精油的足部按摩手法。",
+                focus: "主要反射区定位和按摩手法",
+                difficulty: "反射区准确位置的记忆和定位",
+                tools: "足部反射区图表、按摩椅、精油"
+            },
+            {
+                title: "香薰泡浴技术与流程",
+                objectives: "掌握香薰泡浴的配方设计和操作流程",
+                content: "学习不同功效的香薰泡浴配方、水温控制和操作流程。",
+                focus: "泡浴配方设计和操作流程",
+                difficulty: "针对不同需求的配方调整",
+                tools: "浴缸模型、精油、量杯"
+            },
+            {
+                title: "香薰吸入疗法与应用",
+                objectives: "掌握香薰吸入法的各种技术和应用场景",
+                content: "学习蒸汽吸入、直接吸入、扩香器等不同吸入方法的技术和应用。",
+                focus: "各种吸入方法的操作技巧",
+                difficulty: "不同方法适用场景的判断",
+                tools: "扩香器、蒸汽仪、精油"
+            },
+            {
+                title: "香薰护肤品配制基础",
+                objectives: "掌握基础香薰护肤品的配制方法",
+                content: "学习面霜、乳液、爽肤水等基础护肤品的天然配制方法和精油添加技术。",
+                focus: "护肤品基础配制技术和精油添加",
+                difficulty: "配方平衡和保存技术",
+                tools: "配制器具、基础原料、计量工具"
+            },
+            {
+                title: "定制香薰方案设计",
+                objectives: "掌握针对不同客户的香薰方案设计能力",
+                content: "学习客户需求分析、肤质判断、个性化香薰方案设计的方法。",
+                focus: "客户需求分析和方案设计",
+                difficulty: "针对复杂需求的方案定制",
+                tools: "案例资料、客户档案表、精油"
+            },
+            {
+                title: "香薰与情绪管理",
+                objectives: "掌握运用香薰进行情绪调节的技术",
+                content: "学习精油对情绪的影响机制以及针对压力、焦虑、抑郁等情绪的香薰应用方案。",
+                focus: "情绪调节的香薰方案设计",
+                difficulty: "情绪评估和精油匹配",
+                tools: "情绪量表、精油、案例研究"
+            },
+            {
+                title: "香薰与睡眠改善",
+                objectives: "掌握运用香薰改善睡眠质量的技术",
+                content: "学习失眠原因分析、促进睡眠的香薰方案设计和应用方法。",
+                focus: "改善睡眠的香薰方案",
+                difficulty: "不同失眠类型的方案差异",
+                tools: "睡眠日记、精油、扩香设备"
+            },
+            {
+                title: "香薰美容工作室运营",
+                objectives: "了解香薰美容服务的基本运营管理",
+                content: "学习香薰美容服务的定价、预约管理、客户维护和营销推广基础知识。",
+                focus: "服务流程和客户管理",
+                difficulty: "服务质量控制与客户满意度提升",
+                tools: "运营管理表、案例资料"
+            },
+            {
+                title: "香薰美容综合实践与考核",
+                objectives: "综合应用香薰美容技能完成实践操作",
+                content: "学生分组进行完整香薰美容服务实践，教师进行综合评估和指导。",
+                focus: "技能综合应用和服务流程完整性",
+                difficulty: "在实际操作中综合应用所有知识",
+                tools: "全套美容设备、评估表"
+            }
+        ];
+
+        // 生成教案卡片
+        const lessonsContainer = document.getElementById('lessonsContainer');
+        const elevatorMenu = document.getElementById('elevatorMenu');
+        
+        lessons.forEach((lesson, index) => {
+            // 创建课程卡片
+            const lessonCard = document.createElement('div');
+            lessonCard.className = 'lesson-card';
+            lessonCard.id = `lesson-${index + 1}`; // 为每个课程添加唯一ID
+            
+            lessonCard.innerHTML = `
+                <div class="lesson-number">${index + 1}</div>
+                <h3 class="lesson-title">${lesson.title}</h3>
+                <div class="lesson-content">${lesson.content}</div>
+                <div class="lesson-details">
+                    <div class="detail-item"><span class="detail-label">教学目标:</span> ${lesson.objectives}</div>
+                    <div class="detail-item"><span class="detail-label">教学重点:</span> ${lesson.focus}</div>
+                    <div class="detail-item"><span class="detail-label">教学难点:</span> ${lesson.difficulty}</div>
+                    <div class="detail-item"><span class="detail-label">教具:</span> ${lesson.tools}</div>
+                </div>
+                <button class="download-btn" onclick="downloadLesson(${index})">下载教案文档</button>
+            `;
+            
+            lessonsContainer.appendChild(lessonCard);
+            
+            // 创建电梯导航项
+            const elevatorItem = document.createElement('div');
+            elevatorItem.className = 'elevator-item';
+            elevatorItem.textContent = `第${index + 1}课`;
+            elevatorItem.dataset.lesson = index + 1;
+            
+            // 点击导航项跳转到对应课程
+            elevatorItem.addEventListener('click', () => {
+                const targetLesson = document.getElementById(`lesson-${index + 1}`);
+                if (targetLesson) {
+                    targetLesson.scrollIntoView({ behavior: 'smooth' });
+                    // 点击后收起导航菜单
+                    elevatorMenu.classList.remove('show');
+                }
+            });
+            
+            elevatorMenu.appendChild(elevatorItem);
+        });
+
+        // 电梯导航展开/收起功能
+        const elevatorToggle = document.getElementById('elevatorToggle');
+        
+        elevatorToggle.addEventListener('click', () => {
+            elevatorMenu.classList.toggle('show');
+            // 切换图标
+            const icon = elevatorToggle.querySelector('i');
+            if (elevatorMenu.classList.contains('show')) {
+                icon.classList.remove('fa-list');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-list');
+            }
+        });
+
+        // 滚动监听，高亮当前课程导航
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + 100; // 偏移量
+            
+            lessons.forEach((_, index) => {
+                const lessonElement = document.getElementById(`lesson-${index + 1}`);
+                const elevatorItem = document.querySelector(`.elevator-item[data-lesson="${index + 1}"]`);
+                
+                if (lessonElement && elevatorItem) {
+                    const lessonTop = lessonElement.offsetTop;
+                    const lessonBottom = lessonTop + lessonElement.offsetHeight;
+                    
+                    // 判断当前滚动位置是否在课程范围内
+                    if (scrollPosition >= lessonTop && scrollPosition < lessonBottom) {
+                        elevatorItem.classList.add('active');
+                    } else {
+                        elevatorItem.classList.remove('active');
+                    }
+                }
+            });
+            
+            // 控制返回顶部按钮显示/隐藏
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        // 返回顶部功能
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 下载教案文档功能
+        function downloadLesson(lessonIndex) {
+            const lesson = lessons[lessonIndex];
+            
+            // 创建Word文档内容
+            const content = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>${lesson.title}</title>
+                    <style>
+                        body { font-family: 'Microsoft YaHei', sans-serif; }
+                        h1 { color: #7a5d48; }
+                        table { border-collapse: collapse; width: 100%; }
+                        td { border: 1px solid #7a5d48; padding: 10px; vertical-align: top; }
+                        .label { font-weight: bold; background-color: #f1e8de; width: 80px; }
+                    </style>
+                </head>
+                <body>
+                    <h1 align="center">香薰美容课程教案</h1>
+                    <table>
+                        <tr>
+                            <td class="label">班级</td>
+                            <td></td>
+                            <td class="label">授课时间</td>
+                            <td>年月日</td>
+                            <td class="label">课次</td>
+                            <td>${lessonIndex + 1}</td>
+                            <td class="label">时数</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td class="label">课题</td>
+                            <td colspan="7">${lesson.title}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">教学目的</td>
+                            <td colspan="7">${lesson.objectives}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">授课提要</td>
+                            <td colspan="7">${lesson.content}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">重点</td>
+                            <td colspan="7">${lesson.focus}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">难点</td>
+                            <td colspan="7">${lesson.difficulty}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">教具</td>
+                            <td colspan="7">${lesson.tools}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">作业</td>
+                            <td colspan="7"></td>
+                        </tr>
+                        <tr>
+                            <td class="label">后记</td>
+                            <td colspan="7"></td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <th>课程内容</th>
+                            <th>备注</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h3>一、导入新课</h3>
+                                <p>回顾上节课内容，介绍本节课学习目标和实践意义</p>
+                                
+                                <h3>二、讲授新课</h3>
+                                <p>${lesson.content}</p>
+                                
+                                <h3>三、示范操作</h3>
+                                <p>教师进行相关技能操作示范，分解步骤讲解</p>
+                                
+                                <h3>四、学生实践</h3>
+                                <p>学生分组进行练习，教师巡回指导</p>
+                                
+                                <h3>五、总结讲评</h3>
+                                <p>总结本节课重点难点，讲评学生实践情况</p>
+                            </td>
+                            <td>
+                                <p>使用PPT展示相关图片和视频资料</p>
+                                <p>强调安全注意事项</p>
+                                <p>注意学生操作规范</p>
+                                <p>记录常见错误和问题</p>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                </html>
+            `;
+            
+            // 创建Blob对象
+            const blob = new Blob([content], {type: 'application/msword'});
+            
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `香薰美容教案-第${lessonIndex + 1}课-${lesson.title}.doc`;
+            
+            // 模拟点击下载
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
+·
